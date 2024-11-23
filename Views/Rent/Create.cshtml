@@ -1,0 +1,73 @@
+﻿@model CarRentalSystem.Models.Rent
+
+@{
+    ViewData["Title"] = "Оформити оренду";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12 p-4 shadow rounded bg-light">
+            <!-- Додаємо перевірку на null для Car -->
+            <h2 class="display-4 text-center mb-4">
+                Оформити оренду для автомобіля
+                @if (Model.Car != null)
+                {
+                    @Model.Car.Brand @Model.Car.Model
+                }
+                else
+                {
+                    <span>Невідомий автомобіль</span>
+                }
+            </h2>
+
+            <!-- Форма для створення оренди -->
+            <form method="post" asp-action="Create">
+                <input type="hidden" name="CarId" value="@Model.CarId" />
+
+                <div class="mb-3">
+                    <label for="StartDate" class="form-label">Дата початку оренди</label>
+                    <input type="date" id="StartDate" name="StartDate" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="EndDate" class="form-label">Дата закінчення оренди</label>
+                    <input type="date" id="EndDate" name="EndDate" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Ціна</label>
+                    <input type="number" id="Price" name="Price" class="form-control" readonly />
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4">Створити оренду</button>
+                <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("StartDate").addEventListener("change", calculateRentalPrice);
+    document.getElementById("EndDate").addEventListener("change", calculateRentalPrice);
+
+    function calculateRentalPrice() {
+        var startDate = document.getElementById("StartDate").value;
+        var endDate = document.getElementById("EndDate").value;
+
+        if (startDate && endDate) {
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            var diffTime = end - start;
+            var totalDays = diffTime / (1000 * 3600 * 24);
+
+            if (totalDays > 0) {
+                var pricePerDay = @Model.Car.PricePerDay;
+                var totalPrice = totalDays * pricePerDay;
+                document.getElementById("Price").value = totalPrice;
+            } else {
+                alert("Дата закінчення оренди повинна бути пізніше за дату початку.");
+                document.getElementById("Price").value = "";
+            }
+        }
+    }
+</script>

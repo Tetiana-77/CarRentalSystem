@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CarRentalSystem.Models.Car>
+
+@{
+    ViewData["Title"] = "Car";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-3 p-3 shadow rounded">
+                <div class="d-flex justify-content-between mb-3 p-3">
+                    <h3 class="text-info">Car List</h3>
+                    @Html.ActionLink("Add New Car", "Create", "Car", null, new { @class = "btn btn-sm btn-primary" })
+                </div>
+                <div class="p-3">
+                    <table class="table table-responsive table-bordered text-info text-center">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                                <th>Seating Capacity</th>
+                                <th>Engine</th>
+                                <th>Fuel Type</th>
+                                <th>Passing Year</th>
+                                <th>Car Number</th>
+                                <th>Price Per Day</th>
+                                <th>Actions</th> <!-- Додано стовпець для дій -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var car in Model)
+                            {
+                                <tr>
+                                    <td>@car.Id</td>
+                                    <td>@car.Brand</td>
+                                    <td>@car.Model</td>
+                                    <td>@car.SeatingCapacity</td>
+                                    <td>@car.Engine</td>
+                                    <td>@car.FuelType</td>
+                                    <td>@car.PassingYear</td>
+                                    <td>@car.CarNumber</td>
+                                    <td>@car.PricePerDay</td>
+                                    <td>
+                                        <!-- Кнопки для редагування та видалення -->
+                                        @Html.ActionLink("Edit", "Edit", "Car", new { id = car.Id }, new { @class = "btn btn-sm btn-warning mx-1" })
+                                        @Html.ActionLink("Delete", "Delete", "Car", new { id = car.Id }, new { @class = "btn btn-sm btn-danger mx-1" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

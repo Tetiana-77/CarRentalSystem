@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CarRentalSystem.Models.Rent>
+
+@{
+    ViewData["Title"] = "Список оренд";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Автомобіль</th>
+            <th>Дата початку</th>
+            <th>Дата завершення</th>
+            <th>Ціна</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rent in Model)
+        {
+            <tr>
+                <td>@rent.Id</td>
+                <td>@rent.Car.Brand @rent.Car.Model</td>
+                <td>@rent.StartDate.ToShortDateString()</td>
+                <td>@rent.EndDate.ToShortDateString()</td>
+                <td>@rent.Price</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@rent.Id" class="btn btn-warning btn-sm">Редагувати</a>
+                    <a asp-action="Delete" asp-route-id="@rent.Id" class="btn btn-danger btn-sm">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Додати нову оренду</a>

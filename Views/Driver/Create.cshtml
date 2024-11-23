@@ -1,0 +1,45 @@
+﻿@model CarRentalSystem.Models.Driver
+
+@{
+    ViewData["Title"] = "Додати нового водія";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<!-- Форма для додавання нового водія -->
+<form asp-action="Create" enctype="multipart/form-data" method="post">
+    <div class="mb-3">
+        <label for="Name" class="form-label">Ім'я</label>
+        <input type="text" class="form-control" id="Name" name="Name" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Address" class="form-label">Адреса</label>
+        <input type="text" class="form-control" id="Address" name="Address" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="MobileNo" class="form-label">Номер телефону</label>
+        <input type="tel" class="form-control" id="MobileNo" name="MobileNo" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Age" class="form-label">Вік</label>
+        <input type="number" class="form-control" id="Age" name="Age" required min="18" max="100" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Experience" class="form-label">Досвід</label>
+        <input type="number" class="form-control" id="Experience" name="Experience" required min="0" />
+    </div>
+
+    <div class="mb-3">
+        <label for="DriverImage" class="form-label">Зображення водія</label>
+        <input type="file" class="form-control" id="DriverImage" name="DriverImage" accept="image/*" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Додати водія</button>
+</form>
+
+<!-- Повернутися на список водіїв -->
+<a href="@Url.Action("Index", "Driver")" class="btn btn-secondary mt-3">Назад до списку водіїв</a>

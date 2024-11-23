@@ -1,0 +1,84 @@
+﻿@model CarRentalSystem.Models.Car
+
+@{
+    ViewData["Title"] = "Додати новий автомобіль";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12 p-4 shadow rounded bg-light">
+            <h2 class="display-4 text-center mb-4">Додати новий автомобіль</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                <!-- Додано enctype -->
+                <!-- Марка -->
+                <div class="mb-3">
+                    <label for="Brand" class="form-label">Марка</label>
+                    <input type="text" id="Brand" name="Brand" class="form-control" required />
+                </div>
+
+                <!-- Модель -->
+                <div class="mb-3">
+                    <label for="Model" class="form-label">Модель</label>
+                    <input type="text" id="Model" name="Model" class="form-control" required />
+                </div>
+
+                <!-- Рік випуску -->
+                <div class="mb-3">
+                    <label for="PassingYear" class="form-label">Рік випуску</label>
+                    <input type="number" id="PassingYear" name="PassingYear" class="form-control" min="1900" max="2100" required />
+                </div>
+
+                <!-- Номер автомобіля -->
+                <div class="mb-3">
+                    <label for="CarNumber" class="form-label">Номер автомобіля</label>
+                    <input type="text" id="CarNumber" name="CarNumber" class="form-control" required />
+                </div>
+
+                <!-- Тип двигуна (випадаюче меню) -->
+                <div class="mb-3">
+                    <label for="Engine" class="form-label">Тип двигуна</label>
+                    <select id="Engine" name="Engine" class="form-control" required>
+                        <option value="">Оберіть тип двигуна</option>
+                        <option value="Бензиновий">Бензиновий</option>
+                        <option value="Дизельний">Дизельний</option>
+                        <option value="Електричний">Електричний</option>
+                    </select>
+                </div>
+
+                <!-- Тип палива (випадаюче меню) -->
+                <div class="mb-3">
+                    <label for="FuelType" class="form-label">Тип палива</label>
+                    <select id="FuelType" name="FuelType" class="form-control" required>
+                        <option value="">Оберіть тип палива</option>
+                        <option value="Бензин">Бензин</option>
+                        <option value="Дизель">Дизель</option>
+                        <option value="Електричний">Електричний</option>
+                        <option value="Гібридний">Гібридний</option>
+                    </select>
+                </div>
+
+                <!-- Місткість -->
+                <div class="mb-3">
+                    <label for="SeatingCapacity" class="form-label">Місткість (місця)</label>
+                    <input type="number" id="SeatingCapacity" name="SeatingCapacity" class="form-control" min="1" max="100" required />
+                </div>
+
+                <!-- Ціна за день -->
+                <div class="mb-3">
+                    <label for="PricePerDay" class="form-label">Ціна за день (грн)</label>
+                    <input type="number" id="PricePerDay" name="PricePerDay" class="form-control" required />
+                </div>
+
+                <!-- Зображення автомобіля -->
+                <div class="mb-3">
+                    <label for="CarImage" class="form-label">Зображення автомобіля</label>
+                    <input type="file" id="CarImage" name="CarImage" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4">Додати автомобіль</button>
+                <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+            </form>
+        </div>
+    </div>
+</div>

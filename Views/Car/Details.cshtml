@@ -1,0 +1,102 @@
+﻿@model CarRentalSystem.Models.RentalViewModel
+
+@{
+    ViewData["Title"] = "Деталі автомобіля";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12 p-4 shadow rounded bg-light">
+            <h2 class="display-4 text-center mb-4">@Model.Car.Brand @Model.Car.Model</h2>
+
+            <div class="text-center mb-4">
+                <img src="@Model.Car.ImagePath" class="img-fluid" alt="@Model.Car.Brand @Model.Car.Model" style="max-width: 80%; height: auto;">
+            </div>
+
+            <h5>Деталі:</h5>
+            <ul>
+                <li><strong>Марка:</strong> @Model.Car.Brand</li>
+                <li><strong>Модель:</strong> @Model.Car.Model</li>
+                <li><strong>Рік випуску:</strong> @Model.Car.PassingYear</li>
+                <li><strong>Номер автомобіля:</strong> @Model.Car.CarNumber</li>
+                <li><strong>Тип двигуна:</strong> @Model.Car.Engine</li>
+                <li><strong>Тип палива:</strong> @Model.Car.FuelType</li>
+                <li><strong>Місткість:</strong> @Model.Car.SeatingCapacity місць</li>
+                <li><strong>Ціна за день:</strong> @Model.Car.PricePerDay грн</li>
+            </ul>
+
+            <!-- Передача ціни за день через data атрибут -->
+            <div id="car-details" data-price-per-day="@Model.Car.PricePerDay" style="display:none;"></div>
+
+            <!-- Форма для оренди -->
+            <h4 class="mt-5">Оформити оренду</h4>
+            <form method="post" action="@Url.Action("Create", "Rent")">
+                <!-- Сховане поле для передачі ID автомобіля -->
+                <input type="hidden" name="CarId" value="@Model.Car.Id" />
+
+                <!-- Дата початку оренди -->
+                <div class="mb-3">
+                    <label for="StartDate" class="form-label">Дата початку оренди</label>
+                    <input type="date" id="StartDate" name="StartDate" class="form-control" required />
+                </div>
+
+                <!-- Дата закінчення оренди -->
+                <div class="mb-3">
+                    <label for="EndDate" class="form-label">Дата закінчення оренди</label>
+                    <input type="date" id="EndDate" name="EndDate" class="form-control" required />
+                </div>
+
+                <!-- Загальна кількість днів оренди -->
+                <div class="mb-3">
+                    <label for="TotalDays" class="form-label">Загальна кількість днів</label>
+                    <input type="number" id="TotalDays" name="TotalDays" class="form-control" readonly />
+                </div>
+
+                <!-- Ціна оренди (визначається на основі кількості днів та ціни за день) -->
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Ціна</label>
+                    <input type="number" id="Price" name="Price" class="form-control" readonly />
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4">Орендувати автомобіль</button>
+                <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Функція для розрахунку кількості днів та ціни оренди
+    document.getElementById("StartDate").addEventListener("change", calculateRentalPrice);
+    document.getElementById("EndDate").addEventListener("change", calculateRentalPrice);
+
+    function calculateRentalPrice() {
+        var startDate = document.getElementById("StartDate").value;
+        var endDate = document.getElementById("EndDate").value;
+
+        if (startDate && endDate) {
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            var diffTime = end - start;
+            var totalDays = diffTime / (1000 * 3600 * 24);
+
+            if (totalDays > 0) {
+                // Заповнюємо кількість днів
+                document.getElementById("TotalDays").value = totalDays;
+
+                // Отримуємо ціну за день з атрибута
+                var pricePerDay = document.getElementById("car-details").getAttribute("data-price-per-day");
+                pricePerDay = parseFloat(pricePerDay); // Переконайтесь, що це число
+
+                var totalPrice = totalDays * pricePerDay;
+
+                // Заповнюємо ціну оренди
+                document.getElementById("Price").value = totalPrice;
+            } else {
+                alert("Дата закінчення оренди повинна бути пізніше за дату початку.");
+                document.getElementById("Price").value = "";
+                document.getElementById("TotalDays").value = "";
+            }
+        }
+    }
+</script>

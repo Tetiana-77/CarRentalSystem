@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Car>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <!-- Стильний блок з текстом -->
+        <div class="col-lg-8 col-md-10 col-sm-12 p-4 shadow rounded bg-light">
+            <h2 class="display-4 text-center mb-4" style="font-weight: 600; color: #0d6efd;">Ласкаво просимо до Car Rental System!</h2>
+            <p class="lead text-center mb-4" style="color: #555;">Наша система оренди автомобілів пропонує зручний та простий спосіб орендувати транспортні засоби для будь-яких потреб. Пошук, бронювання та управління орендою – все це тепер у вас під рукою.</p>
+
+            <div class="d-flex justify-content-center">
+                <a href="@Url.Action("Index", "Car")" class="btn btn-primary btn-lg mx-2">Орендувати автомобіль</a>
+                <a href="@Url.Action("Index", "Driver")" class="btn btn-secondary btn-lg mx-2">Додати водія</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Динамічний список автомобілів -->
+    <div class="row mt-5">
+        @foreach (var car in Model)
+        {
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <a href="@Url.Action("Details", "Car", new { id = car.Id })">
+                        <img src="@car.ImagePath" class="card-img-top" alt="@car.Brand @car.Model" style="height: 250px; object-fit: cover;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Brand @car.Model</h5>
+                        <p class="card-text">@car.FuelType - @car.SeatingCapacity місць</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
